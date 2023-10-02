@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes Clearing Todo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f188a4; /* Light pink background color */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .todo-container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 30px; /* Increased padding for bigger container */
+            width: 800px; /* Increased width for bigger container */
+            text-align: center;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 60px 0; /* Increased margin for bigger items */
+            padding: 60px; /* Increased padding for bigger items */
+            background-color: #f4c5c5;
+            border-radius: 5px; /* Increased border-radius for rounded corners */
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        img {
+            max-width: 200px; /* Increased max-width for bigger images */
+            max-height: 200px; /* Increased max-height for bigger images */
+            margin-right: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="todo-container">
+        <h2>Clothes Clearing Todo</h2>
+        <input v-model="newCloth" @keyup.enter="addCloth" type="text" placeholder="Add a new cloth">
+        <div v-for="(cloth, index) in clothes" :key="index" class="todo-item">
+            <img :src="getImageForCloth(cloth.category)" alt="Cloth Image">
+            <span :class="{ completed: cloth.completed }">{{ cloth.text }}</span>
+            <button @click="toggleCompletion(index)">{{ cloth.completed ? 'Undo' : 'Complete' }}</button>
+            <button @click="deleteCloth(index)">Delete</button>
+            <select v-model="cloth.category">
+                <option value="keep">Keep</option>
+                <option value="donate">Donate</option>
+                <option value="discard">Discard</option>
+            </select>
+        </div>
+        <button @click="clearCompleted">Clear Completed</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.29/dist/vue.global.min.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    newCloth: '',
+                    clothes: [],
+                };
+            },
+            methods: {
+                addCloth() {
+                    if (this.newCloth.trim() !== '') {
+                        this.clothes.push({ text: this.newCloth, completed: false, category: 'keep' });
+                        this.newCloth = '';
+                    }
+                },
+                toggleCompletion(index) {
+                    this.clothes[index].completed = !this.clothes[index].completed;
+                },
+                deleteCloth(index) {
+                    this.clothes.splice(index, 1);
+                },
+                clearCompleted() {
+                    this.clothes = this.clothes.filter((cloth) => !cloth.completed);
+                },
+                getImageForCloth(category) {
+                    if (category === 'keep') {
+                        return 'keep.jpg'; // Add the image file path for 'keep' category
+                    } else if (category === 'donate') {
+                        return 'donate.jpg'; // Add the image file path for 'donate' category
+                    } else if (category === 'discard') {
+                        return 'discard.jpg'; // Add the image file path for 'discard' category
+                    }
+                },
+            },
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
+

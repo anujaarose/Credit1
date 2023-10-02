@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Care Service</title>
+    <style>
+        /* Add custom CSS styles */
+        body {
+            background-color: yellow; /* Set background color to yellow */
+            font-family: Arial, sans-serif;
+        }
+        #app {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Conditional Rendering -->
+        <h1 v-if="showHeading">Welcome to Dog Care Service</h1>
+        <p v-else>Heading is hidden.</p>
+
+        <button @click="toggleHeading">Toggle Heading</button>
+
+        <!-- v-show -->
+        <p v-show="showParagraph">This paragraph is shown/hidden with v-show.</p>
+        
+        <!-- v-for: Dog Care Activities -->
+        <h2>Dog Care Activities</h2>
+        <ul>
+            <li v-for="activity in dogCareActivities" :key="activity.id">{{ activity.name }}</li>
+        </ul>
+
+        <!-- v-for: Dog Carers -->
+        <h2>Dog Carers</h2>
+        <ul>
+            <li v-for="carer in dogCarers" :key="carer.id">{{ carer.name }}</li>
+        </ul>
+
+        <!-- v-for: Dog Specialists -->
+        <h2>Dog Specialists</h2>
+        <ul>
+            <li v-for="specialist in dogSpecialists" :key="specialist.id">{{ specialist.name }}</li>
+        </ul>
+
+        <!-- v-for: Dog Carers and Specialists -->
+        <h2>Dog Carers and Specialists</h2>
+        <div v-for="(person, index) in dogCarersAndSpecialists" :key="index">
+            <h3>{{ person.name }}</h3>
+            <p v-if="person.isSpecialist">Specialist</p>
+            <p v-else>Carer</p>
+        </div>
+
+        <!-- Form Input Handling with v-model -->
+        <h2>Contact Us</h2>
+        <label for="message">Enter your message:</label>
+        <textarea id="message" v-model="userMessage"></textarea>
+        <p>Your message: {{ userMessage }}</p>
+
+        <!-- Add an image -->
+        <img src="golden retriever.jpg" alt="Dog Care Image">
+    </div>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.29/dist/vue.global.min.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    showHeading: true,
+                    showParagraph: true,
+                    dogCareActivities: [
+                        { id: 1, name: 'Dog Walking' },
+                        { id: 2, name: 'Pet Sitting' },
+                        { id: 3, name: 'Dog Grooming' },
+                    ],
+                    dogCarers: [
+                        { id: 1, name: 'Emma' },
+                        { id: 2, name: 'Liam' },
+                        { id: 3, name: 'Olivia' },
+                    ],
+                    dogSpecialists: [
+                        { id: 1, name: 'Sophia' },
+                        { id: 2, name: 'Noah' },
+                        { id: 3, name: 'Ava' },
+                    ],
+                    dogCarersAndSpecialists: [
+                        { name: 'Emma', isSpecialist: false },
+                        { name: 'Liam', isSpecialist: false },
+                        { name: 'Sophia', isSpecialist: true },
+                        { name: 'Ava', isSpecialist: true },
+                    ],
+                    userMessage: '',
+                };
+            },
+            methods: {
+                toggleHeading() {
+                    this.showHeading = !this.showHeading;
+                },
+            },
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
